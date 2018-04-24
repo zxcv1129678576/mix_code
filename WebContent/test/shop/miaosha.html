@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>发布秒杀活动</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+				window.onload=function(){
+					getenv(temp1);
+					 $("#price").val('10');
+					 $("#store").val('1000');
+					 $("#time1").val('2');
+					 $("#time2").val('2');
+					 $("#time3").val('99999');
+					 $("#items").val('998,1006');
+					 $("#username").val('hulijuan');
+					 $("#password").val('admin123');
+					// $("#optionsRadios1").prop("checked",true);
+					 
+					 }
+				$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+				function tijiao1(){
+					var username = $("#username").val();
+					var password = $("#password").val();
+					var huanjing = $('#type input:radio:checked').val();
+					if (username == "" || username == null) {
+						layer.msg('店铺用户名不能为空!');
+						return false;
+					}
+					
+					if (password == "" || password == null) {
+						layer.msg('店铺密码不能为空!');
+						return false;
+					}
+					
+
+					$.post(host + "/shop/premiaosha", {
+						username:username,
+						password:password,
+						huanjing:huanjing
+					}, function(result) {
+						if (result.success) {
+							layer.msg("执行成功了！，快去看看吧!");
+							var aaa=JSON.stringify(result.des);
+							
+							aaa=aaa.replace(/\"/g,"");//替换半角双引号为全角双引号
+							$("#items").val(aaa);
+							
+						} else {
+							layer.msg("失败!");
+							$("#description").val(JSON.stringify(result.des));
+							
+							
+						}
+					}, "json");}
+				function tijiao() {
+					var price = $("#price").val();
+					var store = $("#store").val();
+					var time1 = $("#time1").val();
+					var time2 = $("#time2").val();
+					var time3 = $("#time3").val();
+					var items = $("#items").val();
+					var username = $("#username").val();
+					var password = $("#password").val();
+					var huanjing=$('#type input:radio:checked').val();
+					
+					
+					$("#description").val("");
+
+					if (price == "" || price == null) {
+						layer.msg('秒杀的价格不能为空!');
+						return false;
+					}
+					if (store == "" || store == null) {
+						layer.msg('秒杀的库存不能为为空!');
+						return false;
+					}
+					
+					if (time1 == "" || time1 == null) {
+						layer.msg('多久后发布不能为空!');
+						return false;
+					}
+					if (time2 == "" || time2 == null) {
+						layer.msg('发布到开始不能为空!');
+						return false;
+					}
+					
+					if (time2 == "" || time2 == null) {
+						layer.msg('持续多久不能为空!');
+						return false;
+					}
+					
+					if (items == "" || items == null) {
+						layer.msg('商品数组不能为空!');
+						return false;
+					}
+					
+					if (username == "" || username == null) {
+						layer.msg('店铺用户名不能为空!');
+						return false;
+					}
+					
+					if (password == "" || password == null) {
+						layer.msg('店铺密码不能为空!');
+						return false;
+					}
+					
+					
+			
+					$.post(host + "/shop/addmiaosha", {
+						price:price,
+						store:store,
+						time1 : time1,
+						time2:time2,
+						time3:time3,
+						items:items,
+						username:username,
+						password:password,
+						huanjing:huanjing
+					}, function(result) {
+						if (result.success) {
+							layer.msg("执行成功了！，快去看看吧!");
+							$("#description").val(JSON.stringify(result.des));
+					     	
+							
+						} else {
+							layer.msg("失败!");
+							$("#description").val(JSON.stringify(result.des));
+							
+							
+						}
+					}, "json");
+			
+				}
+</script>
+
+
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">一：发布秒杀活动</label><br /> <a class=config>请输入各持续时间（各个时间均为整数分钟）<a />
+			<br />  
+			 <a class=config>选择环境：  </a>
+			<div class="radiogroup" id="type">
+				<label>
+					<input type="radio" name="optionsRadios" id="optionsRadios1" value="http://view1.trc.com/">VIEW1环境
+				</label>
+				<label>
+					<input type="radio" name="optionsRadios" id="optionsRadios22" value="http://view2.trc.com/">VIEW2环境
+				</label>
+				
+				<label>
+					<input type="radio" name="optionsRadios" id="optionsRadios33" value="http://view3.trc.com/">VIEW3环境
+				</label>
+				<label>
+					<input type="radio" name="optionsRadios" id="optionsRadios44" value="http://view4.trc.com/">VIEW4环境
+				</label>
+				
+				<label>
+					<input type="radio" name="optionsRadios" id="optionsRadios55" value="http://view5.trc.com/">VIEW5环境
+				</label>
+				<label>
+					<input type="radio" name="optionsRadios" id="optionsRadios2" value="http://pre.trc.com/">PRE环境
+				</label>
+			</div>
+						
+			<a class=config>店铺用户名：</a> <input class="addconfig" id="username">
+			<a class=config>店铺密码： </a> <input class="addconfig" id="password">
+			<a class=config>商品数组（用英文逗号分隔）： </a> <input class="addconfig" id="items">
+			<a class=config>多久后发布（分钟，整数） ：</a> <input class="addconfig" id="time1"> 
+			<a class=config>发布到开始需要多少分钟（分钟，整数） ：</a> <input class="addconfig" id="time2">
+			<a class=config>秒杀活动持续多少分钟（分钟，整数） ：</a> <input class="addconfig" id="time3">	
+			<a class=config>秒杀价格（自动生成数据需要小于80）</a> <input class="addconfig" id="price">
+			<a class=config>秒杀商品的库存 </a> <input class="addconfig" id="store">
+			<button class="submitBtn" id="config-save" onclick="tijiao1()">准备商品一键起飞</button>
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			<a class=config>接口结果：包含success基本上就是没翻车！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+		</div>
+</body>
+</html>

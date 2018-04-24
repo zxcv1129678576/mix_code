@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>查询商品数组</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">获取商品数组</label><br /> 
+			<br /> 
+			 <a class=config>店铺账号：  </a> <input class="addconfig" id="username">
+			 <a class=config>店铺密码 ：</a> <input class="addconfig" id="password"> 
+			 <a class=config>选择环境：  </a>
+			<div class="radiogroup" id="type">
+
+			</div>
+			<a class=config>商品数量 ：(1到10的数字)</a> <input class="addconfig" id="number"> 
+			
+				 <a class=config>选择商品状态  </a>
+			<div class="radiogroup2" id="type2">
+				<label>
+					<input type="radio" name="optionsRadios2" id="1" value="1">全部
+				</label>
+				<label>
+					<input type="radio" name="optionsRadios2" id="2" value="2">已上架
+				</label>
+				
+				<label>
+					<input type="radio" name="optionsRadios2" id="3" value="3">已下架
+				</label>
+			</div>
+			
+			 <a class=config>商品名称 ：</a> <input class="addconfig" id="itemname">
+			 
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			
+<!-- 		<button class="submitBtn" id="config-save" onclick="piliang">批量造商品</button> -->
+		
+			<a class=config>用户的登录账号 ：</a> <input class="addconfig" id="phone"> 
+			<a class=config>商品数组 ：</a> <input class="addconfig" id="items"> 
+			<button class="submitBtn" id="config-save" onclick="tijiao1()">加入购物袋</button>
+				<button class="submitBtn" id="config-save" onclick="tijiao1()">批量加入购物袋</button>
+			<a class=config>接口结果：包含success就可以去查看了！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+	</div>
+
+
+<script type="text/javascript">
+	window.onload=function(){
+		getenv(temp1);
+		 $("#username").val('hulijuan');
+		 $("#password").val('admin123');
+		 $("#number").val('10');
+		 $("#itemname").val('默认名称');
+		 $("#phone").val('18200000000');
+		// $("#optionsRadios1").prop("checked",true);
+		 $("#1").prop("checked",true);
+
+	}
+	
+	
+	$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	$("#type2 label").click(function(){ $(this).children("input").prop("checked",true); });
+	function tijiao1(){
+		var phone=$("#phone").val();
+		var items=$("#items").val();
+		var huanjing=$('#type input:radio:checked').val();
+		if (phone == "" || phone == null) {
+			layer.msg('用户登录名不能为空!');
+			return false;
+		}
+		if (items == "" || items == null) {
+			layer.msg('商品数组不能为空!');
+			return false;
+		}
+	
+		$.post(host + "/user/addcart", {
+			phone:phone,
+			items:items,
+			huanjing:huanjing
+
+		}, function(result) {
+			if (result.success) {
+				var aaa=JSON.stringify(result.des);
+				
+				aaa=aaa.replace(/\"/g,"");//替换半角双引号为全角双引号
+			//	alert(aaa);
+				$("#description").val(aaa);
+				//$("#items").val(aaa);
+				layer.msg("貌似添加到购物袋了");
+			
+			} else {
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+		
+		
+		
+	}
+	
+	
+	
+	function tijiao() {
+		
+		var huanjing=$('#type input:radio:checked').val();
+		var status=$('#type2 input:radio:checked').val();
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var number = $("#number").val();
+		var itemname = $("#itemname").val();
+		$("#description").val("");
+
+		
+		
+		if (username == "" || username == null) {
+			layer.msg('店铺账号不能为空!');
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.msg('店铺密码不能为空!');
+			return false;
+		}
+		if (itemname == "" || itemname == null) {
+			layer.msg('商品名称不能为空!');
+			return false;
+		}
+		if (number == "" || number == null) {
+			layer.msg('商品名称不能为空!');
+			return false;
+		}
+
+
+		$.post(host + "/shop/itemsearch", {
+			huanjing:huanjing,
+			username : username,
+			password : password,
+			number : number,
+			status:status,
+			itemname:itemname
+
+		}, function(result) {
+			if (result.success) {
+				var aaa=JSON.stringify(result.des);
+				
+				aaa=aaa.replace(/\"/g,"");//替换半角双引号为全角双引号
+			//	alert(aaa);
+				$("#description").val(aaa);
+				$("#items").val(aaa);
+				layer.msg("查找！，快去看看吧");
+			
+			} else {
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+	}
+	function piliang() {
+		
+		var huanjing=$('#type input:radio:checked').val();
+		var status=$('#type2 input:radio:checked').val();
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var number = $("#number").val();
+		var itemname = $("#itemname").val();
+		$("#description").val("");
+	
+		for (var i=0;i<cars.length;i++)
+		{
+		document.write(cars[i] + "<br>");
+		}
+		
+		if (username == "" || username == null) {
+			layer.msg('店铺账号不能为空!');
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.msg('店铺密码不能为空!');
+			return false;
+		}
+		if (itemname == "" || itemname == null) {
+			layer.msg('商品名称不能为空!');
+			return false;
+		}
+		if (number == "" || number == null) {
+			layer.msg('商品名称不能为空!');
+			return false;
+		}
+
+
+		$.post(host + "/shop/itemsearch", {
+			huanjing:huanjing,
+			username : username,
+			password : password,
+			number : number,
+			status:status,
+			itemname:itemname
+
+		}, function(result) {
+			if (result.success) {
+				var aaa=JSON.stringify(result.des);
+				
+				aaa=aaa.replace(/\"/g,"");//替换半角双引号为全角双引号
+			//	alert(aaa);
+				$("#description").val(aaa);
+				$("#items").val(aaa);
+				layer.msg("查找！，快去看看吧");
+			
+			} else {
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+	}
+	
+</script>
+
+</body>
+</html>

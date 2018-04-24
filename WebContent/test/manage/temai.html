@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>添加特卖活动</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+</head>
+<body>
+	<div class="add-config">
+	<a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+	
+	
+	
+		<label class="title">一：发布特卖活动</label><br /> 
+					 <a class=config>选择环境：  </a>
+			<div class="radiogroup" id="type">
+				
+			</div>
+		
+			<a class=config>请输入各持续时间（各个时间均为整数分钟）<a /><br />
+			<a class=config>报名持续时间： </a> <input class="addconfig" id="time1"> 
+			<a class=config>审核持续时间 ：</a> <input class="addconfig" id="time2"> 
+			<a class=config>审核后持续时间 ：</a> <input class="addconfig" id="time3"> 
+			<a class=config>活动持续时间 ：</a> <input class="addconfig" id="time4">
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			<a class=config>接口结果：包含success就可以去查看了！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+	</div>
+
+<script type="text/javascript" src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<script type="text/javascript">
+	window.onload=function(){
+		getenv(temp1);
+		 $("#time1").val('3');
+		 $("#time2").val('1');
+		 $("#time3").val('1');
+		 $("#time4").val('60');
+		// $("#optionsRadios1").prop("checked",true);
+	}
+	
+	$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	function tijiao() {
+		var time1 = $("#time1").val();
+		var time2 = $("#time2").val();
+		var time3 = $("#time3").val();
+		var time4 = $("#time4").val();
+		var huanjing=$('#type input:radio:checked').val();
+		
+		$("#description").val("");
+		if (time1 == "" || time1 == null) {
+			layer.msg('报名持续时间不能为空');
+			return false;
+		}
+		if (time2 == "" || time2 == null) {
+			layer.msg('审核持续时间不能为空');
+			return false;
+		}
+		if (time3 == "" || time3 == null) {
+			layer.msg('审核后持续时间不能为空');
+			return false;
+		}
+		if (time4 == "" || time4 == null) {
+			layer.msg('活动持续时间不能为空');
+			return false;
+		}
+
+		$.post(host + "/mytools", {
+			time1 : time1,
+			time2 : time2,
+			time3 : time3,
+			time4 : time4,
+			huanjing:huanjing
+		}, function(result) {
+			if (result.success) {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("成功！");
+			//	$("#description").val(JSON.stringify(result.des));
+			} else {
+				layer.msg("失败!");
+				$("#description").val(result.des);
+			}
+		}, "json");
+
+	}
+	function getManageCookies(){
+		var manage_url="http://view.trc.com/shopadmin";
+		$.post(manage_url, {
+		}, function(result) {
+
+		}, "json");
+		
+		var manage_login="http://view.trc.com/shopadmin?app=desktop&ctl=passport&act=login";
+		$.post(manage_login, {
+			redirect : "aHR0cDovL3ZpZXcudHJjLmNvbS9zaG9wYWRtaW4=",
+			uname : "admin",
+			password : "admin123"
+
+		}, function(result) {
+			Alert(result);
+		}, "json");
+		
+}
+	function add_activity(){
+		var activity_url="http://view.trc.com/shopadmin?app=syspromotion&ctl=admin_flashsale&act=save";
+		
+	}
+	
+	
+</script>
+
+
+</body>
+</html>

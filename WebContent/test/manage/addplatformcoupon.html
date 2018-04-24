@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>发布跨店优惠券</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+	window.onload=function(){
+		getenv(temp1);
+		 $("#name").val('测试优惠券');
+		 $("#limit").val('');
+		 $("#discount").val('15');
+		 $("#wait").val('2');
+		 $("#ling").val('99999');
+		 $("#youxiao").val('3');	
+		// $("#optionsRadios1").prop("checked",true);
+	}
+	
+	$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	function tijiao() {
+		var name = $("#name").val();
+		var limit = $("#limit").val();
+		var discount = $("#discount").val();
+		var wait = $("#wait").val();
+		var ling = $("#ling").val();
+		var youxiao = $("#youxiao").val();
+		var huanjing=$('#type input:radio:checked').val();
+		
+		$("#description").val("");
+		
+		if (name == "" || name == null) {
+			layer.msg('优惠券名称不能为空！');
+			return false;
+		}
+
+		if (discount == "" || discount == null) {
+			layer.msg('优惠金额不能为空!');
+			return false;
+		}
+		
+		if (wait == "" || wait == null) {
+			layer.msg('多久后开始不能为空!');
+			return false;
+		}
+		if (ling == "" || ling == null) {
+			layer.msg('领取多少时间不能为空!');
+			return false;
+		}
+		if (youxiao == "" || youxiao == null) {
+			layer.msg('有效多少时间不能为空!');
+			return false;
+		}
+	
+		
+
+		$.post(host + "/addplatform", {
+			name:name,
+			limit:limit,
+			discount:discount,
+			wait : wait,
+			 ling: ling,
+			youxiao : youxiao,
+			huanjing:huanjing
+		}, function(result) {
+		
+				$("#description").val(JSON.stringify(result));
+		     	layer.msg("看看报文吧！");
+		
+		}, "json");
+
+	}
+</script>
+
+
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">一：发布平台优惠券</label><br /> <a class=config>请输入各持续时间（各个时间均为整数分钟）<a />
+			<br />  
+			<div class="radiogroup" id="type">
+
+			</div>
+			
+			 <a class=config>优惠券的名称： </a> <input class="addconfig" id="name">
+			 <a class=config>门槛金额： </a> <input class="addconfig" id="limit">
+			 <a class=config>减的金额（优惠金额）： </a> <input class="addconfig" id="discount">
+			 <a class=config>多久后开始领取 ：</a> <input class="addconfig" id="wait">
+			 <a class=config>可以领取多少分钟：</a> <input class="addconfig" id="ling"> 
+			 <a class=config>有效持续多少小时：</a> <input class="addconfig" id="youxiao">
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			<a class=config>接口结果：包含success就可以去查看了！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+	</div>
+</body>
+</html>

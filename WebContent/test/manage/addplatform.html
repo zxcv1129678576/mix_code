@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>发布平台优惠券</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+	window.onload=function(){
+		getenv(temp1);
+		 $("#name").val('测试优惠券');
+		 $("#man").val('100');
+		 $("#jian").val('15');
+		 $("#time1").val('3');
+		 $("#time2").val('1');
+		 $("#time3").val('1');
+		 $("#time4").val('1200');
+		 $("#time5").val('1201');
+		
+		// $("#optionsRadios1").prop("checked",true);
+	}
+	
+	$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	function tijiao() {
+		var name = $("#name").val();
+		var man = $("#man").val();
+		var jian = $("#jian").val();
+		var time1 = $("#time1").val();
+		var time2 = $("#time2").val();
+		var time3 = $("#time3").val();
+		var time4 = $("#time4").val();
+		var time5 = $("#time5").val();
+		var huanjing=$('#type input:radio:checked').val();
+		
+		$("#description").val("");
+		
+		if (name == "" || name == null) {
+			layer.msg('优惠券名称不能为空！');
+			return false;
+		}
+		if (man == "" || man == null) {
+			layer.msg('门槛金额不能为空!');
+			return false;
+		}
+		if (jian == "" || jian == null) {
+			layer.msg('优惠金额不能为空!');
+			return false;
+		}
+		
+		if (time1 == "" || time1 == null) {
+			layer.msg('报名持续时间不能为空!');
+			return false;
+		}
+		if (time2 == "" || time2 == null) {
+			layer.msg('发布前时间不能为空!');
+			return false;
+		}
+		if (time3 == "" || time3 == null) {
+			layer.msg('发布后时间不能为空!');
+			return false;
+		}
+		if (time4 == "" || time4 == null) {
+			layer.msg('优惠券可领取持续时间不能为空!');
+			return false;
+		}
+		
+		if (time5 == "" || time5 == null) {
+			layer.msg('优惠券可使用时间不能为空!');
+			return false;
+		}
+		
+
+		$.post(host + "/addplatformcoupon", {
+			time1 : time1,
+			name:name,
+			man:man,
+			jian:jian,
+			time2 : time2,
+			time3 : time3,
+			time4 : time4,
+			time5:time5,
+			huanjing:huanjing
+		}, function(result) {
+			if (result.success) {
+				$("#description").val(JSON.stringify(result.des));
+		     	layer.msg("添加成功了！，快去看看吧");
+			
+			} else {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+	}
+</script>
+
+
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">一：发布平台优惠券</label><br /> <a class=config>请输入各持续时间（各个时间均为整数分钟）<a />
+			<br />  
+			<div class="radiogroup" id="type">
+				
+			</div>
+			
+			 <a class=config>平台优惠全名称 </a> <input class="addconfig" id="name">
+			 <a class=config>满的金额（门槛金额）： </a> <input class="addconfig" id="man">
+			 <a class=config>减的金额（优惠金额）： </a> <input class="addconfig" id="jian">
+			 <a class=config>报名持续时间：  </a> <input class="addconfig" id="time1">
+			 <a class=config>发布前持续时间 ：</a> <input class="addconfig" id="time2"> 
+			 <a class=config>发布后持续时间 ：</a> <input class="addconfig" id="time3">
+			 <a class=config>可领取持续时间 ：</a> <input class="addconfig" id="time4">
+			 <a class=config>可使用持续时间 ：</a> <input class="addconfig" id="time5">
+			 <a class=config>可使用持续时间 必须大于可领取时间，实际上可领取开始时间+1=可使用开始时间</a> <br />
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			<a class=config>接口结果：包含success就可以去查看了！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+	</div>
+</body>
+</html>

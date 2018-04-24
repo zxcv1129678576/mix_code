@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>特卖</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">特卖</label><br /> 
+			<br /> 
+			 <a class=config>店铺账号：  </a> <input class="addconfig" id="username">
+			 <a class=config>店铺密码 ：</a> <input class="addconfig" id="password"> 
+			 <a class=config>选择环境：  </a>
+			<div class="radiogroup" id="type">
+			</div>
+			<a class=config>商品数组 ：(可以好多个)</a> <input class="addconfig" id="items"> 	 
+			<a class=config>商品特卖价格 ：</a> <input class="addconfig" id="price"> 	
+			<a class=config>商品活动库存 ：</a> <input class="addconfig" id="store"> 	
+			<button class="submitBtn" id="config-save" onclick="tijiao1()">一键准备俩特卖</button>
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			<button class="submitBtn" id="config-save" onclick="shenhe()">自动审核特卖</button>
+			
+			<a class=config>接口结果：包含success就可以去查看了！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br/>
+		
+	</div>
+
+<script type="text/javascript">
+	window.onload=function(){
+		getenv(temp1);
+		 $("#username").val('hulijuan');
+		 $("#password").val('admin123');
+		 $("#items").val('');
+		// $("#optionsRadios1").prop("checked",true);
+		 $("#price").val('10');
+		 $("#store").val('100');
+	}
+	
+	
+	$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	
+	function tijiao1(){
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var huanjing = $('#type input:radio:checked').val();
+		if (username == "" || username == null) {
+			layer.msg('店铺用户名不能为空!');
+			return false;
+		}
+		
+		if (password == "" || password == null) {
+			layer.msg('店铺密码不能为空!');
+			return false;
+		}
+		
+
+		$.post(host + "/shop/pretemai", {
+			username:username,
+			password:password,
+			huanjing:huanjing
+		}, function(result) {
+			if (result.success) {
+				layer.msg("执行成功了！，快去看看吧!");
+				var aaa=JSON.stringify(result.des);
+				
+				aaa=aaa.replace(/\"/g,"");//替换半角双引号为全角双引号
+				$("#items").val(aaa);
+				
+			} else {
+				layer.msg("失败!");
+				$("#description").val(JSON.stringify(result.des));
+				
+				
+			}
+		}, "json");}
+	
+	
+	
+	function shenhe(){
+		var huanjing=$('#type input:radio:checked').val();
+		
+		$.post(host + "/shenhetemai", {
+			huanjing:huanjing
+
+		}, function(result) {
+			if (result.success) {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("看报文！");
+			
+			} else {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+		
+	}
+	
+	function tijiao() {
+		
+		var huanjing=$('#type input:radio:checked').val();
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var items = $("#items").val();
+		var price =$("#price").val();
+		var store =$("#store").val();
+		$("#description").val("");		
+		if (username == "" || username == null) {
+			layer.msg('店铺账号不能为空!');
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.msg('店铺密码不能为空!');
+			return false;
+		}
+		if (items == "" || items == null) {
+			layer.msg('商品名称不能为空!');
+			return false;
+		}
+		if (price == "" || price == null) {
+			layer.msg('商品特卖价格不能为空!');
+			return false;
+		}
+		if (store == "" || store == null) {
+			layer.msg('商品特卖库存不能为空!');
+			return false;
+		}
+		
+		$.post(host + "/shop/enlisttemai", {
+			huanjing:huanjing,
+			username : username,
+			password : password,
+			items : items,
+			store:store,
+			price:price
+		}, function(result) {
+			if (result.success) {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("看报文！");
+			
+			} else {
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+	}
+</script>
+
+</body>
+</html>

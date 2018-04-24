@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>在线转换工具</title>
+ <style type="text/css">
+.add-config{margin: 0 auto;}
+.addconfig{display:block;width:1000px;height:250px;border:1px solid #ccc;padding:5px;border-radius:3px;-webkit-border-radius:3px;box-shadow:0 0 3px #ccc inset;-webkit-box-shadow:0 0 3px #ccc inset;margin-left:5px;}
+.addconfig:focus{outline:none;border-color:#66afe9;box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);}
+.submitBtn{ width:140px;height:30px;line-height:25px;font-family:"微软雅黑","microsoft yahei";cursor:pointer;margin-top:10px;display:inline-block;border-radius:5px;-webkit-border-radius:5px;text-align:center;background-color:#428bca;color:#fff;box-shadow: 0 -3px 0 #2a6496 inset;-webkit-box-shadow: 0 -3px 0 #2a6496 inset;}
+.title{text-align: center; width=auto; font-size:25px;color: #000040;margin-bottom:10px;}	
+#description{
+display:block;width:1000px;height:1200px;border:1px solid #ccc;padding:5px;border-radius:3px;-webkit-border-radius:3px;box-shadow:0 0 3px #ccc inset;-webkit-box-shadow:0 0 3px #ccc inset;margin-left:5px;
+margin-top: 50px;
+}
+.config{
+margin-left:15px;
+}	
+ </style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link href="assets/css/interface.css" rel="stylesheet" />
+<script type="text/javascript" src="assets/js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="assets/js/common.js"></script> 
+		<script type="text/javascript">
+		var count=0;
+		function trans(){
+			var Sourcedata="";
+			var Target="";
+			Target+="Map<String,String> map"+count+"=new HashMap<>();\n";
+			var Sourcedata=$("#datas").val();
+			var strs= new Array(); //定义一数组 
+			strs=Sourcedata.split("\n");
+			for (i=0;i<strs.length ;i++ ) 
+			{ 
+ 				var temp= new Array(); //定义一数组 
+				temp=strs[i].split("\t");
+ 				//判断是只有一个值
+ 				if(1==temp.length){
+					var key1=temp[0];
+					var key2="";
+					Target+="map"+count+".put(\""+key1+"\",\""+key2+"\");\n";
+ 				}
+ 				//判断是只有两个值
+ 				if(2==temp.length){
+					var key1=temp[0];
+					var key2=temp[1];
+					Target+="map"+count+".put(\""+key1+"\",\""+key2+"\");\n";
+ 				} 				
+ 
+			} 
+			
+			$("#description").val(Target);
+			count++;
+			
+		}
+		function clearss(){
+		
+			$("#datas").val('');
+			$("#description").val('');
+		}
+		</script>
+		
+		
+</head>
+<body>	 <div class="add-config">
+		 <label class="title">接口数据转JavaMap代码工具</label><br />
+		 <a class=config>输入抓自Fiddler的接口的数据:<a/> <br/>     
+		 <textarea type="text" id="datas" class="addconfig"></textarea><br />
+		 <button class="submitBtn" id="config-save" onclick="trans()">转换</button>
+         <button class="submitBtn" id="config-cancle" onclick="clearss()">清除</button>
+         <a class=config>转换的JAVA代码<a/> <br/>    
+         <textarea type="text" id="description" disabled="disabled"></textarea><br />
+
+         </div>
+
+
+</body>
+</html>

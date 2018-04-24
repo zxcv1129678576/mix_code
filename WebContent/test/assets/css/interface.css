@@ -1,0 +1,71 @@
+.add-config {
+	margin: 0 auto;
+}
+
+.addconfig {
+	display: block;
+	width: 200px;
+	height: 25px;
+	border: 1px solid #ccc;
+	padding: 5px;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: 0 0 3px #ccc inset;
+	-webkit-box-shadow: 0 0 3px #ccc inset;
+	margin-left: 5px;
+}
+
+.addconfig:focus {
+	outline: none;
+	border-color: #66afe9;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px
+		rgba(102, 175, 233, 0.6);
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px
+		rgba(102, 175, 233, 0.6);
+}
+
+.submitBtn {
+	width: 140px;
+	height: 30px;
+	line-height: 25px;
+	font-family: "微软雅黑", "microsoft yahei";
+	cursor: pointer;
+	margin-top: 10px;
+	display: inline-block;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	text-align: center;
+	background-color: #428bca;
+	color: #fff;
+	box-shadow: 0 -3px 0 #2a6496 inset;
+	-webkit-box-shadow: 0 -3px 0 #2a6496 inset;
+}
+
+.title {
+	text-align: center; width =auto;
+	font-size: 25px;
+	color: #000040;
+	margin-bottom: 10px;
+}
+
+#description {
+	display: block;
+	width: 950px;
+	height: 100px;
+	border: 1px solid #ccc;
+	padding: 5px;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: 0 0 3px #ccc inset;
+	-webkit-box-shadow: 0 0 3px #ccc inset;
+	margin-left: 5px;
+	margin-top: 50px;
+}
+
+.config {
+	margin-left: 15px;
+}
+.top{
+font-size: 40px;
+color: #668840;
+}

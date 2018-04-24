@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>上下架商品</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">改变商品状态</label><br /> 
+			<br /> 
+			 <a class=config>店铺账号：  </a> <input class="addconfig" id="username">
+			 <a class=config>店铺密码 ：</a> <input class="addconfig" id="password"> 
+			 <a class=config>选择环境：  </a>
+			<div class="radiogroup" id="type">
+
+			</div>
+			<a class=config>商品数组 ：(最多10个)</a> <input class="addconfig" id="items"> 
+				 <a class=config>请选择操作  </a>
+			<div class="radiogroup2" id="type2">
+				<label>
+					<input type="radio" name="optionsRadios2" id="1" value="tosale">上架
+				</label>
+				<label>
+					<input type="radio" name="optionsRadios2" id="2" value="tostock">下架
+				</label>
+			</div>			 
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			<a class=config>接口结果：包含success就可以去查看了！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+	</div>
+
+<script type="text/javascript">
+	window.onload=function(){
+		getenv(temp1);
+		 $("#username").val('hulijuan');
+		 $("#password").val('admin123');
+		 $("#items").val('');
+		// $("#optionsRadios1").prop("checked",true);
+		 $("#1").prop("checked",true);
+
+	}
+	
+	
+	$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	$("#type2 label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	function tijiao() {
+		
+		var huanjing=$('#type input:radio:checked').val();
+		var type=$('#type2 input:radio:checked').val();
+		var username = $("#username").val();
+		var password = $("#password").val();
+		var items = $("#items").val();
+		$("#description").val("");		
+		if (username == "" || username == null) {
+			layer.msg('店铺账号不能为空!');
+			return false;
+		}
+		if (password == "" || password == null) {
+			layer.msg('店铺密码不能为空!');
+			return false;
+		}
+		if (items == "" || items == null) {
+			layer.msg('商品数组不能为空!');
+			return false;
+		}
+		$.post(host + "/shop/itemstatus", {
+			huanjing:huanjing,
+			username : username,
+			password : password,
+			items : items,
+			type:type
+		}, function(result) {
+			if (result.success) {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("看报文！");
+			
+			} else {
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+	}
+</script>
+
+</body>
+</html>

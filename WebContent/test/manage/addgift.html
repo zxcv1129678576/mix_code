@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>添加礼包</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>	
+<script type="text/javascript">
+	window.onload=function(){
+		getenv(temp1);
+		 $("#name").val('测试礼包');
+		 $("#time1").val('3');
+		 $("#time2").val('1200');
+		 $("#userlimit").val('5');
+		 $("#shoplimit").val('100');	 
+		// $("#optionsRadios1").prop("checked",true);
+		 
+	}
+	$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	function tijiao() {
+		var name = $("#name").val();
+		var time1 = $("#time1").val();
+		var time2 = $("#time2").val();
+		var userlimit = $("#userlimit").val();
+		var shoplimit = $("#shoplimit").val();
+		var huanjing=$('#type input:radio:checked').val();
+		$("#description").val("");
+
+		
+		if (name == "" || name == null) {
+			layer.msg('礼包名称不能为空!');
+			return false;
+		}
+		if (time1 == "" || time1 == null) {
+			layer.msg('报名持续时间不能为空!');
+			return false;
+		}
+		if (time2 == "" || time2 == null) {
+			layer.msg('礼包可领取持续时间不能为空!');
+			return false;
+		}
+		if (userlimit == "" || userlimit == null) {
+			layer.msg('用户可领取数量不能为空!');
+			return false;
+		}
+		if (shoplimit == "" ||	shoplimit == null) {
+			layer.msg('店铺可报名数量不能为空!');
+			return false;
+		}
+
+
+		$.post(host + "/addgift", {
+			time1 : time1,
+			time2 : time2,
+			name:name,
+			userlimit:userlimit,
+			shoplimit:shoplimit,
+			huanjing:huanjing
+		}, function(result) {
+			if (result.success) {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("添加成功了！，快去看看吧");
+			
+			} else {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+	}
+</script>
+
+
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">一：添加礼包</label><br /> 
+			<br />  
+								 <a class=config>选择环境：  </a>
+			<div class="radiogroup" id="type">
+
+				
+			</div>
+			
+			
+			 <a class=config>礼包名称：  </a> <input class="addconfig" id="name">
+			 <a class=config>报名持续时间 ：</a> <input class="addconfig" id="time1"> 
+			 <a class=config>领取持续时间：</a> <input class="addconfig" id="time2">
+			 <a class=config>用户可领取数量：</a> <input class="addconfig" id="userlimit">
+			 <a class=config>店铺可报名数量：</a> <input class="addconfig" id="shoplimit">
+			 <a class=config>正常填写就行</a> <br />
+			  
+			  
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			<a class=config>接口结果：包含success就可以去查看了！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+	</div>
+
+
+</body>
+</html>

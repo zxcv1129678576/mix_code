@@ -1,0 +1,155 @@
+.operate{
+		display:block;
+		float: right;
+        border-radius: 4px;
+      	margin-left:5px;
+        text-align: center;
+        margin-bottom: 2px;
+        height: 30px;
+        line-height: 30px;
+        padding-left: 2px;
+        padding-right: 2px;
+        font-family: "微软雅黑";
+        font-size: 15px;
+        margin-top:4px;
+        margin-right: 10px;
+        
+}
+.tool{
+		display:block;
+		float: left;
+        border-radius:1px;
+      	margin-left:10px;
+        text-align: center;
+        margin-bottom: 2px;
+        margin-top:3px;
+        height: 30px;
+        line-height: 30px;
+        padding-left: 2px;
+        padding-right: 2px;
+        font-family: "微软雅黑";
+        font-size: 15px;
+ }
+ .tool-show{
+ 	width: 30px;
+ 	background-color: #ff8040;
+ }
+#set{
+	border: 1px solid #c0c0c0;
+	 background-color : #c0c0c0;
+ 
+}
+#delete{
+	 border: 1px solid #D5D5D5;
+	 background-color : #ff8080;
+
+}
+#add{
+	 border: 1px solid #D5D5D5;
+	 background-color: #80ff80;
+
+}
+.son{
+	 border: 1px solid #000000;
+	 border-radius: 5px;
+	 color: #800000;
+	 width: 300px;
+}
+.des{
+	 border: 1px solid #000000;
+	 border-radius: 5px;
+	 color: #008080;
+	 width: 500px;
+}
+#son-type{
+	width:150px;
+	border: 1px solid #000000;
+	 border-radius: 5px;
+	 color: #000000;
+}
+.tree-config a{
+	width:100%;
+	float: left;
+	display: block;
+	height: 40px;
+	border: 1px solid #0000a0;
+	background-color:  #f1f1fe;
+}
+.tree-config ul{
+	width:100%;
+	width:auto;
+	margin-top: 25px;
+	display: block;
+}
+.tree-config li{
+	width:100%;
+	width:auto;
+	margin-top: 25px;
+	display: block;
+}
+.config-left{
+	width: 400px;
+	float:left;
+	background-color: #ffbbbb;
+	min-height:700px;
+	font-family: "微软雅黑";
+    font-size: 15px;
+}
+.data-show-area{
+	width: 1200px;
+	float:left;
+}
+.config-left ul{
+	width:auto;
+	display: block;
+	position: static
+	margin:0; 
+	padding:0; 
+	list-style:none;
+}
+.config-left li{
+	width:auto;
+	display: block;
+	list-style-type:none;
+	padding-left: 10px;
+}
+.config-left a{
+	width:100%;
+	float: left;
+	display: block;
+	height: 20px;
+	border: 1px solid #000000;
+
+}
+.view-tool{
+
+}
+.view-tool-show{
+	width:30px;
+	text-align: center;
+	background-color: #0080ff;
+	border: 1px solid #0080ff;
+	display: block;
+	float: left;
+}
+.view-son{
+	width:220px;
+	text-align: center;
+	display: block;
+	float: left;
+	text-overflow : clip;
+}
+.view-operate{
+	width:80px;
+	margin-right: 1px;
+	text-align: center;
+	border: 1px solid #0000ff;
+	display: block;
+	float: left;
+	background-color: #fa8e83;
+}
+a.info-deatil{
+	display: block;
+}
+
+

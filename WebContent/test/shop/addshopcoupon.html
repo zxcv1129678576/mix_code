@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>发布平台优惠券</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+				window.onload=function(){
+					getenv(temp1);
+					
+					 $("#name").val('测试优惠券');
+					 $("#man").val('100');
+					 $("#jian").val('15');
+					 $("#all").val('1000');
+					 $("#one").val('100');
+					 $("#ling").val('1500');
+					 $("#yong").val('1700');
+					 $("#items").val('998,1006');
+					 $("#username").val('hulijuan');
+					 $("#password").val('admin123');
+					// $("#optionsRadios1").prop("checked",true);
+					 $("#1").prop("checked",true);
+					 
+					 }
+				$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+				
+				function tijiao1(){
+					var username = $("#username").val();
+					var password = $("#password").val();
+					var huanjing = $('#type input:radio:checked').val();
+					if (username == "" || username == null) {
+						layer.msg('店铺用户名不能为空!');
+						return false;
+					}
+					
+					if (password == "" || password == null) {
+						layer.msg('店铺密码不能为空!');
+						return false;
+					}
+					
+
+					$.post(host + "/shop/precoupon", {
+						username:username,
+						password:password,
+						huanjing:huanjing
+					}, function(result) {
+						if (result.success) {
+							layer.msg("执行成功了！，快去看看吧!");
+							var aaa=JSON.stringify(result.des);
+							
+							aaa=aaa.replace(/\"/g,"");//替换半角双引号为全角双引号
+							$("#items").val(aaa);
+							
+						} else {
+							layer.msg("失败!");
+							$("#description").val(JSON.stringify(result.des));
+							
+							
+						}
+					}, "json");}
+				
+				
+				function tijiao() {
+					var name = $("#name").val();
+					var man = $("#man").val();
+					var jian = $("#jian").val();
+					var all = $("#all").val();
+					var one = $("#one").val();
+					var ling = $("#ling").val();
+					var yong = $("#yong").val();
+					var items = $("#items").val();
+					var username = $("#username").val();
+					var password = $("#password").val();
+					var huanjing=$('#type input:radio:checked').val();
+					var isshow=$('#type2 input:radio:checked').val();
+				//	alert(isshow);
+					$("#description").val("");
+					
+					if (name == "" || name == null) {
+						layer.msg('优惠券名称不能为空！');
+						return false;
+					}
+					if (man == "" || man == null) {
+						layer.msg('门槛金额不能为空!');
+						return false;
+					}
+					if (jian == "" || jian == null) {
+						layer.msg('优惠金额不能为空!');
+						return false;
+					}
+					
+					if (all == "" || all == null) {
+						layer.msg('报名持续时间不能为空!');
+						return false;
+					}
+					if (one == "" || one == null) {
+						layer.msg('发布前时间不能为空!');
+						return false;
+					}
+					if (ling == "" || ling == null) {
+						layer.msg('发布后时间不能为空!');
+						return false;
+					}
+					if (yong == "" || yong == null) {
+						layer.msg('优惠券可领取持续时间不能为空!');
+						return false;
+					}
+					
+					if (items == "" || items == null) {
+						layer.msg('优惠券可使用时间不能为空!');
+						return false;
+					}
+					
+					if (username == "" || username == null) {
+						layer.msg('店铺用户名不能为空!');
+						return false;
+					}
+					
+					if (password == "" || password == null) {
+						layer.msg('店铺密码不能为空!');
+						return false;
+					}
+					
+					
+			
+					$.post(host + "/addcoupon", {
+						name:name,
+						man:man,
+						jian:jian,
+						all : all,
+						one : one,
+						ling : ling,
+						yong:yong,
+						items:items,
+						username:username,
+						password:password,
+						huanjing:huanjing,
+						isshow:isshow
+					}, function(result) {
+						if (result.success) {
+							layer.msg("执行成功了！，快去看看吧!");
+							$("#description").val(JSON.stringify(result.des));
+					     	
+							
+						} else {
+							layer.msg("失败!");
+							$("#description").val(JSON.stringify(result.des));
+							
+							
+						}
+					}, "json");
+			
+				}
+</script>
+
+
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">一：发布店铺优惠券</label><br /> <a class=config>请输入各持续时间（各个时间均为整数分钟）<a />
+			<br />  
+			 <a class=config>选择环境：  </a>
+			<div class="radiogroup" id="type">
+
+			</div>
+						
+			<a class=config>店铺用户名：</a> <input class="addconfig" id="username">
+			<a class=config>店铺密码： </a> <input class="addconfig" id="password">
+			<a class=config>店铺优惠全名称： </a> <input class="addconfig" id="name">
+			<a class=config>满的金额（门槛金额）： </a> <input class="addconfig" id="man">
+			<a class=config>减的金额（优惠金额）： </a> <input class="addconfig" id="jian">
+			<a class=config>发送的总数量 ：</a> <input class="addconfig" id="all"> 
+			<a class=config>一个人可以领取的优惠券数量 ：</a> <input class="addconfig" id="one">
+			<a class=config>可领取持续时间 ：</a> <input class="addconfig" id="ling">
+			<a class=config>可使用持续时间 ：</a> <input class="addconfig" id="yong">
+			<a class=config>选定的商品数组 （示例：367,127）：</a> <input class="addconfig" id="items">
+			<a class=config>选择是否展示入口：  </a>
+			<div class="radiogroup2" id="type2">
+				<label>
+					<input type="radio" name="optionsRadios2" id="1" value="0">不显示
+				</label>
+				<label>
+					<input type="radio" name="optionsRadios2" id="2" value="1">显示
+				</label>
+				
+			</div>
+			<a class=config>实际上开始时间等于当前时间加上两分钟</a> <br />
+			<button class="submitBtn" id="config-save" onclick="tijiao1()">一键准备商品</button>
+			<button class="submitBtn" id="config-save" onclick="tijiao()">提交</button>
+			<a class=config>接口结果：包含success基本上就是没翻车！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+		</div>
+</body>
+</html>

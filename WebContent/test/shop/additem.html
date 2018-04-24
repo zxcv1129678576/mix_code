@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>在店铺发布商品</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/TRCTools/test/assets/css/interface.css" rel="stylesheet" />
+<script src="/TRCTools/test/assets/js/jquery-3.1.1.min.js"></script>	
+<script type="text/javascript" src="/TRCTools/test/assets/Plugs/layer/layer.js"></script>
+<script type="text/javascript" src="/TRCTools/test/assets/js/common.js"></script> 
+<link rel="stylesheet" href="/TRCTools/test/assets/Plugs/bootstrap/css/bootstrap.min.css">  
+<script src="/TRCTools/test/assets/Plugs/bootstrap/js/bootstrap.min.js"></script>	
+<script type="text/javascript">
+
+	
+	
+	$("#type label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	$("#type2 label").click(function(){ $(this).children("input").prop("checked",true); });
+	
+	function tijiao() {
+		
+		var huanjing=$('#type input:radio:checked').val();
+		var maoyi=$('#type2 input:radio:checked').val();
+		var store= $("#store").val();
+		var time1 = $("#time1").val();
+		var time2 = $("#time2").val();
+		var time3 = $("#time3").val();
+		var time4 = $("#time4").val();		
+		$("#description").val("");
+
+		
+		
+		if (time1 == "" || time1 == null) {
+			layer.msg('店铺账号不能为空!');
+			return false;
+		}
+		if (time2 == "" || time2 == null) {
+			layer.msg('店铺密码不能为空!');
+			return false;
+		}
+		if (time3 == "" || time3 == null) {
+			layer.msg('商品名称不能为空!');
+			return false;
+		}
+		if (time4 == "" || time4 == null) {
+			layer.msg('商品价格不能为空!');
+			return false;
+		}
+		
+		if (store == "" || store == null) {
+			layer.msg('商品库存不能为空!');
+			return false;
+		}
+
+		$.post(host + "/additem", {
+			huanjing:huanjing,
+			time1 : time1,
+			time2 : time2,
+			time3 : time3,
+			time4 : time4,
+			maoyi:maoyi,
+			store:store
+
+		}, function(result) {
+			if (result.success) {
+				$("#description").val(JSON.stringify(result.des));
+				layer.msg("添加成功了！，快去看看吧");
+			
+			} else {
+				layer.msg("失败!");
+				
+			}
+		}, "json");
+
+	}
+	
+	
+	
+	function xunhuan() {
+		
+		var huanjing=$('#type input:radio:checked').val();
+		var maoyi=$('#type2 input:radio:checked').val();
+		var store= $("#store").val();
+		var time1 = $("#time1").val();
+		var time2 = $("#time2").val();
+		var time3 = $("#time3").val();
+		var time4 = $("#time4").val();		
+		var nums = $("#nums").val();		
+		$("#description").val("");
+
+		
+		if (nums == "" || nums == null) {
+			layer.msg('要添加的商品个数不能为空!');
+			return false;
+		}
+		if (time1 == "" || time1 == null) {
+			layer.msg('店铺账号不能为空!');
+			return false;
+		}
+		if (time2 == "" || time2 == null) {
+			layer.msg('店铺密码不能为空!');
+			return false;
+		}
+		if (time3 == "" || time3 == null) {
+			layer.msg('商品名称不能为空!');
+			return false;
+		}
+		if (time4 == "" || time4 == null) {
+			layer.msg('商品价格不能为空!');
+			return false;
+		}
+		
+		if (store == "" || store == null) {
+			layer.msg('商品库存不能为空!');
+			return false;
+		}
+
+		 var count =1;
+		 var atime3="";
+		for (var i=1;i<=parseInt(nums);i++)
+		{		 
+				var a=5000*(i-1);		
+				setTimeout(() => {					 
+				layer.msg("当前创建的是第"+count+"个商品！");
+				atime3=time3+count;
+				count++;
+				 zuoniea();
+				}, a);	
+		}
+		
+		function zuoniea(){
+			 $.post(host + "/additem", {
+					huanjing:huanjing,
+					time1 : time1,
+					time2 : time2,
+					time3 : atime3,
+					time4 : time4,
+					maoyi:maoyi,
+					store:store
+
+				}, function(result) {
+					if (result.success) {
+						$("#description").val(JSON.stringify(result.des));
+						layer.msg("添加成功了！，快去看看吧");
+					
+					} else {
+						layer.msg("失败!");	
+					}
+				}, "json");
+		}
+
+		
+
+
+	}
+	
+	
+	function myconfig(){
+		myJson = {"name":"caibaojian", "password":"1111"};
+		alert(myJson);
+		for(var p in myJson){//遍历json对象的每个key/value对,p为key
+		 
+		  alert(p + " " + myJson[p]);
+		 
+		}
+	}
+	window.onload=function(){
+			getenv(temp1);
+			// myconfig();
+			 $("#time1").val('hulijuan');
+			 $("#time2").val('admin123');
+			 $("#time3").val('图片太吓人了！');
+			 $("#time4").val('100');
+			 $("#store").val('10000');
+			 $("#1").prop("checked",true);
+			//
+			// setTimeout(function(){$("#test8").prop("checked",true);},100); 
+		}
+	
+</script>	
+</head>
+<body>
+	<div class="add-config">
+	 <a href="/TRCTools/test/index.html" class="top">跳回首页</a><br />
+		<label class="title">一：添加商品(当前只支持用hzcd发布)</label><br /> 
+			<br /> 
+			 <a class=config>店铺账号：  </a> <input class="addconfig" id="time1">
+			 <a class=config>店铺密码 ：</a> <input class="addconfig" id="time2"> 
+			 <a class=config>选择环境：  </a>
+			<div class="radiogroup" id="type">				
+				
+			</div>
+				 <a class=config>选择贸易类型：（有税率会默认选第一条）  </a>
+			<div class="radiogroup2" id="type2">
+				<label>
+					<input type="radio" name="optionsRadios2" id="1" value="1">一般贸易
+				</label>
+				<label>
+					<input type="radio" name="optionsRadios2" id="2" value="2">海外直邮
+				</label>
+				
+				<label>
+					<input type="radio" name="optionsRadios2" id="3" value="3">跨境保税
+				</label>
+				<label>
+					<input type="radio" name="optionsRadios2" id="4" value="4">海淘
+				</label>
+				
+			</div>
+			 <a class=config>商品名称 ：</a> <input class="addconfig" id="time3">
+			 <a class=config>商品价格 ：</a> <input class="addconfig" id="time4">
+			 <a class=config>商品库存 ：</a> <input class="addconfig" id="store">
+			  <a class=config>循环添加次数 ：</a> <input class="addconfig" id="nums">
+			<button class="submitBtn" id="config-save" onclick="tijiao()">创建一个</button>
+			<button class="submitBtn" id="config-save" onclick="xunhuan()">循环创建</button>
+			<a class=config>接口结果：包含success就可以去查看了！<a /> <br /> 
+			<textarea type="text" id="description" disabled="disabled"></textarea><br />
+	</div>
+	
+	
+
+
+</body>
+</html>
